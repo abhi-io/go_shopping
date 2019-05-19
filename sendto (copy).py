@@ -9,8 +9,8 @@ start_time = time.time()
 temp_pos=[]
 # flag1=0
 # updatetxt="wait"
-camerafeed='cup.webm'
-# camerafeed=0
+# camerafeed='cup.webm'
+camerafeed=0
 
 
 # construct the argument parse and parse the arguments
@@ -52,8 +52,8 @@ ln = [ln[i[0] - 1] for i in net.getUnconnectedOutLayers()]
 vs =cv2.VideoCapture(camerafeed)####################################################
 
 def toDATABASE():
-	
-	print(Fore.BLUE + "[info] DATABASE comlete")
+	print("//////////////toDATABASE ---> ")
+	print(Fore.BLUE + "[info] DATABASEstarts")
 	writer = None
 	(W, H) = (None, None)
 	old_items= items
@@ -170,15 +170,6 @@ def toDATABASE():
 					print("calibration complete")
 					if(len(items_search)==len(items)):
 						print("item returned")
-						import mysql.connector
-						mydb = mysql.connector.connect(host="127.0.0.1",  user="root", passwd="12", database="shopdb")
-						mycursor = mydb.cursor()
-						sql = "DELETE FROM items WHERE item = %s"
-						val = (items_search,)
-						mycursor.execute(sql, val)
-
-						mydb.commit()
-						print(mycursor.rowcount, "record DELETED.")
 						exit()
 					else:
 						tracking()
@@ -467,24 +458,8 @@ def tracking():
 	                    print (diff,">>---------->>",i)
 	                    # print(items[i],"missing")
 	                    updatetxt= items[i]+" missing"
-	                    toDBitem = items[i]
-######################################################################
-#####################################################################
-################# write to db ############################
-	                    print("//////////////toDATABASE ---> ")
-	                    import mysql.connector
-	                    import random
-	                    rand_slno = (int(random.uniform(10, 10000)))
-	                    mydb = mysql.connector.connect(host="127.0.0.1",  user="root", passwd="12", database="shopdb")
-	                    mycursor = mydb.cursor()
-	                    sql = "INSERT INTO items (slno,user,item,quantity,price) VALUES (%s, %s,%s, %s,%s)"
-	                    val = (rand_slno,"Abhi", toDBitem,"1","50")
-	                    mycursor.execute(sql, val)
-
-	                    mydb.commit()
-	                    print(mycursor.rowcount, "record inserted.")
+						
 	                    toDATABASE()
-	                    
 	                
 
 	  # show frame+
@@ -507,8 +482,6 @@ def test():
 	items =['cup', 'cup', 0, 0, 0, 0, 0, 0, 0, 0]
 	item_pos = [347, 54, 0, 0, 0, 0, 0, 0, 0, 0]
 	return items,item_pos
-
-
 
 #------------------------------------------------------------------
 def main():
